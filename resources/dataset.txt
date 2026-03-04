@@ -1,0 +1,100 @@
+
+1
+
+Automatic Zoom
+Ayurvedic Q&A & Benchmark Data
+BhashaBench-Ayur (BBA) – A bilingual Ayurvedic QA benchmark (English + Hindi) of ~15,000
+authentic exam questions (MCQs, fill-blanks, reasoning) covering 15+ Ayurvedic domains . The
+dataset (Hugging Face) draws on government and institutional exams (UPSC AYUSH, AIAPGET, etc.).
+It includes 9,348 English and 5,615 Hindi questions . BBA is available via Hugging Face (cc-by-4.0
+license) .
+Conversational Medical Dialogues
+MediTOD – Doctor–patient dialogue dataset for medical history-taking (English). Collected and
+annotated with comprehensive medical slot labels . It contains simulated clinical interviews
+(focused on respiratory cases) with patient histories and symptom mentions. MediTOD is publicly
+released (GitHub) for research .
+Structured Symptom-Disease Data
+Hindi-English Health Cases (Zenodo) – A multilingual medical dataset with clinical case records.
+Includes English_dataset.csv and Hindi_dataset.csv, with patient demographics, diagnoses,
+symptoms, treatments and durations . (Also a Punjabi version.) Covers many conditions,
+symptoms and their Ayurvedic-related treatments. Licensed CC0 (public domain) .
+Disease–Symptom Dataset (2023) – Tabular English dataset with 773 diseases and 377 symptoms
+(~246k rows, synthetically generated) . Each row links one or more symptoms to a disease (with
+symptom severity and disease prevalence info). Released on Mendeley Data under CC-BY-4.0 .
+Useful for symptom-based retrieval or classification tasks.
+Ayurvedic Text Corpora
+Charaka Samhita (English) – Complete English translation of the Charaka Samhita (1949) freely
+available online. Covers core Ayurvedic principles, pathology, anatomy, therapeutics, pharmacology,
+etc. . (WisdomLib hosts the full text; e.g. Sutra Sthana, Nidana Sthana, etc.)
+Sushruta Samhita (English) – Volume 1 (Sūtrasthāna) English translation (1907) is openly accessible.
+It contains an extensive summary of Ayurvedic medicine (including surgical techniques, diagnostics,
+regimens) . (WisdomLib provides the full Sūtrasthāna text online.)
+(Other classical Ayurvedic works have similar online editions – e.g. parts of Ashtanga Hridaya – which can be used
+as corpora for language models.)
+•
+1
+2
+3
+•
+4
+4
+•
+5 6
+7
+•
+8
+8 9
+•
+10
+•
+11
+1
+Multilingual Health Corpora
+AI4Bharat IN22-Gen – General-domain parallel benchmark in 22 Indic languages (including Hindi)
+with English as source . Contains 1,024 sentence pairs (covering domains like health, law, news,
+etc.) in 22 languages. For Hindi-English ( hin_Deva – eng_Latn ), this can serve as training/
+evaluation data for translation/understanding of health-related text. Licensed CC-BY-4.0 .
+IIT Bombay English–Hindi Parallel Corpus – A large general-domain parallel dataset (news, tech,
+health, etc.) covering multiple domains in English and Hindi. Available for research (CC BY-NC-4.0). It
+includes some health-related material (and can supplement domain-specific data).
+Indic Health Translations – (Examples) The Zenodo and IN22 datasets above include aligned Hindi-
+English content. Other resources like the AI4Bharat Indic translation corpus and Wikimedia
+translations also provide health-related sentences (often CC-BY).
+Additional Resources
+Medical QA in Hindi (maternal/child health) – ASHA-FAQ – A vetted Hindi QA corpus for maternal/
+child health (over 1,300 Q/A pairs) developed by SCARL (details in Yadav et al. 2023). (The full dataset
+is not yet openly published, but an example demo is on GitHub.)
+General Hindi Q&A (TELUS) – A Hindi-language QA corpus (1,000+ questions) for general domain.
+(Commercially licensed; mentioned for reference, not open.)
+Each dataset above is publicly accessible for download (with the noted license). For example, Zenodo
+provides direct CSV downloads , Hugging Face hosts BhashaBench-Ayur (cc-by) with an API to load
+, and WisdomLib sites allow copying classical Ayurvedic texts for research .
+Sources: Authoritative dataset descriptions and repositories as cited above.
+bharatgenai/BhashaBench-Ayur · Datasets at Hugging Face
+https://huggingface.co/datasets/bharatgenai/BhashaBench-Ayur?source=post_page-----1077537e35b9---------------------------------------
+GitHub - dair-iitd/MediTOD
+https://github.com/dair-iitd/MediTOD
+Hindi, English and Punjabi Healthcare Datasets
+https://zenodo.org/records/14599295
+Disease and symptoms dataset 2023 - Mendeley Data
+https://data.mendeley.com/datasets/2cxccsxydc/1
+Charaka Samhita (English translation)
+https://www.wisdomlib.org/hinduism/book/charaka-samhita-english
+Sushruta Samhita, volume 1: Sutrasthana
+https://www.wisdomlib.org/Hinduism/Book/Sushruta-Samhita-Volume-1-Sutrasthana
+•
+12
+13
+•
+•
+•
+•
+5 7
+1 3 10 11
+1 2 3
+4
+5 6 7
+8 9
+10
+11
+2

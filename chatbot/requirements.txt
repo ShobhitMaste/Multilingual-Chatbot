@@ -1,0 +1,27 @@
+# Core ML
+torch>=2.0.0
+transformers>=4.36.0
+datasets>=2.16.0
+accelerate>=0.25.0
+sentencepiece>=0.1.99
+
+# QLoRA / PEFT
+peft>=0.7.0
+bitsandbytes>=0.41.0
+
+# Embeddings & Retrieval
+sentence-transformers>=2.2.0
+faiss-cpu>=1.7.4
+
+# Translation & Language Detection
+langdetect>=1.0.9
+googletrans==4.0.0-rc.1
+
+# Web Interface
+streamlit>=1.29.0
+
+# Utilities
+pandas>=2.0.0
+numpy>=1.24.0
+tqdm>=4.65.0
+scikit-learn>=1.3.0

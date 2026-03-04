@@ -1,0 +1,54 @@
+# ──────────────────────────────────────────────
+# Environment & Secrets
+# ──────────────────────────────────────────────
+.env
+*.env
+.env.*
+
+# ──────────────────────────────────────────────
+# Python
+# ──────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ──────────────────────────────────────────────
+# Model weights & checkpoints (too large for git)
+# ──────────────────────────────────────────────
+chatbot/models/mt5_ayurvedic_lora/
+chatbot/models/*.bin
+chatbot/models/*.safetensors
+*.ckpt
+*.pt
+*.pth
+
+# ──────────────────────────────────────────────
+# FAISS index (generated, can be rebuilt)
+# ──────────────────────────────────────────────
+chatbot/data/faiss_index/
+
+# ──────────────────────────────────────────────
+# Raw & processed data (downloaded/generated)
+# ──────────────────────────────────────────────
+chatbot/data/raw/
+chatbot/data/processed/
+
+# ──────────────────────────────────────────────
+# HuggingFace cache
+# ──────────────────────────────────────────────
+.cache/
+huggingface/
+
+# ──────────────────────────────────────────────
+# IDE & OS
+# ──────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+Thumbs.db
+.DS_Store

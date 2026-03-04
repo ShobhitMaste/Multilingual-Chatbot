@@ -1,0 +1,94 @@
+Multilingual Chatbot with Ayurvedic Domain
+Person 2 – Data & Baseline Methodology
+1. Dataset Description
+The proposed multilingual Ayurvedic chatbot relies on multiple structured and unstructured healthcare and Ayurvedic datasets to construct a Hindi-primary knowledge base.
+Primary Datasets
+BhashaBench-Ayur (BBA)
+~15,000 MCQs (9,348 English + 5,615 Hindi)
+Covers diverse Ayurvedic subjects
+License: CC-BY-4.0
+Serves as the core QA dataset, especially the Hindi subset used directly in training.
+Hindi–English Health Cases (Zenodo)
+Clinical health case records in Hindi and English
+Public-domain license (CC0)
+Provides real-world medical narratives for grounding responses.
+Disease–Symptom Dataset (Mendeley Data)
+773 diseases, 377 symptoms (~246K rows)
+English language, CC-BY-4.0
+Used to enrich symptom-based reasoning in the knowledge base.
+MediTOD Doctor–Patient Dialogues
+Conversational medical dialogue dataset (English)
+Open license
+Useful for dialogue-style response modeling.
+Classical Ayurvedic Texts (Charaka Samhita, Sushruta Samhita)
+Authoritative Ayurvedic literature (English translations)
+Open access
+Provide domain authenticity and traditional knowledge grounding.
+Parallel Language Corpora
+AI4Bharat IN22-Gen (22 Indic languages)
+IIT Bombay English–Hindi parallel corpus
+Enable translation alignment and multilingual capability.
+Knowledge Base Construction (Hindi-Primary)
+Since Ayurvedic terminology is naturally aligned with Hindi/Sanskrit, the chatbot is designed as a Hindi-primary system:
+Hindi subset of BhashaBench-Ayur used directly.
+English subset translated into Hindi using IndicTrans2.
+Classical Ayurvedic passages translated into Hindi.
+Zenodo Hindi health cases included directly.
+English disease–symptom data translated and manually verified.
+Final knowledge base size: ~10,000–15,000 Hindi QA pairs and passages.
+This ensures cultural alignment, reduced translation loss, and better semantic grounding for Ayurvedic queries.
+2. Current Approach / Baseline Method
+Baseline Technique
+TF-IDF + Cosine Similarity Retrieval (Hindi FAQ Matching)
+Pipeline:
+Text Preprocessing
+Hindi tokenization
+Stopword removal
+Stemming and normalization
+Feature Extraction
+TF-IDF vectorization of Hindi text
+Similarity Matching
+Cosine similarity between user query and stored FAQ vectors
+Response Selection
+Highest-similarity answer returned as output.
+Limitations of the Baseline
+No semantic or contextual understanding (bag-of-words only).
+Cannot handle paraphrased or unseen Hindi queries.
+No native English support.
+No generative capability—restricted to stored answers only.
+These limitations motivate the transition toward a deep-learning-based RAG architecture.
+3. Evaluation Metrics
+The chatbot performance will be measured using standard NLP and retrieval metrics:
+BLEU Score ≥ 0.25
+Measures n-gram overlap between generated and reference Hindi responses.
+ROUGE-L ≥ 0.35
+Evaluates longest common subsequence similarity.
+Perplexity ≤ 50
+Indicates language-model prediction confidence.
+Retrieval Accuracy (Top-K) ≥ 80%
+Checks whether the correct passage is retrieved.
+Language Detection Accuracy ≥ 95%
+Validates correct Hindi vs English identification.
+Translation Quality (BLEU) ≥ 0.40
+Ensures reliable English↔Hindi translation.
+Human Evaluation ≥ 3.5 / 5
+Measures relevance, fluency, and Ayurvedic correctness.
+Response Time ≤ 3 seconds
+Ensures real-time usability.
+4. Expected Outcomes
+The project is expected to deliver:
+A functional Hindi-primary bilingual Ayurvedic chatbot
+Supports Hindi natively and English via translation.
+A curated Hindi Ayurvedic knowledge base
+~10K–15K QA pairs from validated sources.
+A RAG-based deep learning pipeline
+Hindi-tuned mT5 model
+BLEU ≥ 0.25 and retrieval accuracy ≥ 80%.
+High-accuracy language detection and translation
+Detection ≥ 95%, translation BLEU ≥ 0.40.
+Web-based deployment (Flask/Streamlit)
+Interactive chatbot demo.
+Comprehensive documentation and evaluation results.
+Conclusion
+This section establishes the data foundation, baseline retrieval methodology, evaluation framework, and expected deliverables for the multilingual Ayurvedic chatbot.
+The Hindi-primary knowledge construction combined with measurable evaluation metrics provides a clear transition path from traditional TF-IDF retrieval to an advanced deep-learning RAG system.

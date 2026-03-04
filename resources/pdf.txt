@@ -1,0 +1,104 @@
+
+1
+
+Automatic Zoom
+Proposed Deep Learning Solution
+We propose a multilingual (English/Hindi) Ayurvedic chatbot built on transformer-based deep learning. The
+core pipeline follows a retrieval-augmented generation (RAG) approach: user text (in English or Hindi) is
+first normalized and translated into English, relevant Ayurvedic knowledge is retrieved, and a neural
+language model generates the answer, which is then re-translated to the user’s language if needed. For
+example, the AyurSanvaad system auto-detects any of 22 Indian languages, translates queries to English,
+retrieves answers from a curated Ayurveda knowledge base, and finally translates the response back . In
+our design, Hindi inputs would likewise be translated to English (using a model like IndicTrans2 or Google
+Translate), processed by the core English-language model, and the output translated back to Hindi. This
+leverages large pre-trained English models (e.g. transformer-based encoders/decoders) while still serving
+Hindi users. We will fine-tune the model on domain data (Ayurvedic texts and FAQs) to capture specialized
+terminology. Optionally, separate modules (or the model itself) can perform intent classification and entity
+extraction (e.g. symptom names) before generation.
+The high-level model architecture is a transformer-based encoder–decoder (or encoder-only with a
+separate decoder layer) suited for sequence-to-sequence tasks . Concretely, the pipeline will include
+word embeddings and positional encodings to convert input tokens into vectors, followed by stacked
+transformer layers with multi-head self-attention and feed-forward sublayers . The encoder processes
+the English-form query (after translation if needed), generating context-aware embeddings; a decoder or
+feed-forward head then produces the output text token by token. The self-attention mechanism allows the
+model to capture long-range dependencies and handle complex grammar, which is crucial for medical text
+. For the domain knowledge, we incorporate a retrieval module: we embed user queries (with a model
+like all-MiniLM or a fine-tuned SentenceTransformer) and use a vector database (e.g. FAISS) to fetch the
+most relevant Ayurveda passages . These retrieved passages are appended as extra context to the
+model input (“grounding” the generation), as in RAG pipelines . The final response is then generated
+by the transformer (e.g. a fine-tuned GPT or encoder–decoder model like T5), which ensures fluent,
+contextually relevant answers in English; if the user’s original query was Hindi, we translate this output back
+to Hindi for the user. Overall, the system implements the standard conversational AI modules: NLU
+(understanding and embedding the input), a Dialogue Manager (which may handle retrieval and context
+management), and NLG (the transformer text generator) .
+Example: A user asks in Hindi about “घुटने का ददर्द” (knee pain). The system first translates this to English (“knee
+pain”), encodes it via transformer embeddings, retrieves matching Ayurvedic remedies from a knowledge
+base, and then generates an answer like “In Ayurveda, knee pain can be treated with XYZ herbs...” in
+English. Finally it translates the response back to Hindi. This pipeline mirrors the approach of recent
+multilingual medical bots .
+Model Architecture (High-Level)
+Transformer Backbone: We use a transformer model (encoder–decoder or encoder with
+autoregressive decoder) as the core. Input tokens (from English or translated Hindi) are embedded
+with positional encodings . Multiple self-attention layers allow the model to learn contextual
+1
+2 3
+3
+2
+4
+4 1
+5
+1 2
+•
+3
+1
+representations of the entire input sequence in parallel . This is ideal for handling complex
+medical language and multiple languages .
+Multilingual Handling: To support English and Hindi, we either fine-tune a multilingual transformer
+(e.g. mT5 or mBERT+decoder) or perform translation. In practice, we auto-detect language and
+translate Hindi to English before encoding . The English-based model then generates the answer,
+which we translate back if needed. This strategy (used in AyurSanvaad) simplifies training by keeping
+a single English model, yet provides true multilingual interaction .
+Knowledge Integration (RAG): We incorporate an external Ayurvedic knowledge base. The input (in
+English) is embedded (e.g. with a SentenceTransformer) and matched against the KB using vector
+search (FAISS/Chroma) to retrieve the top-K relevant passages . These passages are concatenated
+with the query and fed into the transformer, so that the generated answer is grounded in factual
+Ayurvedic content . This reduces hallucination and ensures medical accuracy, following the RAG
+framework .
+Dialogue Manager: A lightweight manager handles session context and may decompose the query
+into sub-tasks (e.g. intent classification, entity extraction, then answer generation). For example, we
+could use separate classifiers (fine-tuned transformers) to identify symptoms or intent, whose
+outputs guide retrieval or generation. These would use standard classification heads on top of the
+transformer embeddings (again using cross-entropy loss).
+This modular architecture (NLU → Retriever/DM → NLG) is standard for chatbots , ensuring
+maintainability and scalability.
+Loss Function and Optimizer Selection
+For training the deep model, we use standard sequence modeling losses and optimizers. The loss function
+will be cross-entropy between the predicted token distribution and the ground-truth tokens (sparse
+categorical cross-entropy when using integer token IDs). Padding tokens are masked out in the loss. This is
+exactly the approach in transformer-based chatbots . If we include auxiliary tasks (e.g. intent
+classification), those branches also use categorical cross-entropy. If using multi-task learning, we simply add
+the losses (or weight them) as needed.
+For optimization, Adam is a strong default: it adapts learning rates and converges well for transformers. In
+fact, the TensorFlow Transformer tutorial uses tf.keras.optimizers.Adam(...) with beta1=0.9,
+beta2=0.98, epsilon=1e-9 . We will similarly use Adam or AdamW (with weight decay) and a learning-rate
+scheduler (e.g. inverse-square-root warmup) to train the model. These choices have been shown to yield
+stable training for transformer language models . (Alternatively, for classification heads one might use
+Adagrad or SGD, but Adam usually works best.) In summary: Sparse Categorical Cross-Entropy for
+language generation, Categorical Cross-Entropy for any classification tasks, and Adam(β1=0.9, β2=0.98)
+as optimizer with learning-rate scheduling .
+3
+2
+•
+1
+1
+•
+4
+4
+4 1
+•
+5
+6
+7
+7
+6 7
+2
