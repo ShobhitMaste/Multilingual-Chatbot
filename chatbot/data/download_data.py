@@ -4,7 +4,7 @@ Download Ayurvedic datasets from HuggingFace.
 Downloads:
   1. BhashaBench-Ayur   — 14,963 exam-based Q&As (Hindi + English)
   2. ayurveda-text-qanda — Ayurveda Q&A pairs from classical texts
-  3. AyurParam           — Bilingual corpus curated from ~1000 Ayurvedic books
+  3. HiMed-Trad          — Hindi traditional Indian medicine corpus + benchmark
 """
 
 import os
@@ -19,7 +19,7 @@ from config import HF_TOKEN, BBA_DATASET_NAME, RAW_DATA_DIR
 # Dataset identifiers
 # ──────────────────────────────────────────────
 AYURVEDA_QA_DATASET = "Macromrit/ayurveda-text-based-qanda"
-AYURPARAM_DATASET = "bharatgenai/AyurParam"
+HIMED_DATASET = "FreedomIntelligence/HiMed"
 
 
 def _save_dataset(data, filename, label):
@@ -96,31 +96,37 @@ def download_ayurveda_qa():
 
 
 # ──────────────────────────────────────────────
-# 3. AyurParam (gated — needs HF token)
+# 3. HiMed — Hindi Medical (Traditional Indian Medicine subset)
 # ──────────────────────────────────────────────
-def download_ayurparam():
-    """Download bharatgenai/AyurParam — bilingual Ayurveda corpus from ~1000 books."""
+def download_himed():
+    """Download FreedomIntelligence/HiMed — traditional Indian medicine corpus + benchmark in Hindi."""
     from datasets import load_dataset
 
-    print(f"\n{'='*50}")
-    print(f"[3/3] AyurParam — {AYURPARAM_DATASET}")
-    print(f"{'='*50}")
+    # We only need the traditional medicine subsets (not Western medicine)
+    subsets = [
+        ("himed_trad_corpus", "himed_trad_corpus.json"),   # ~286K items
+        ("himed_trad_bench", "himed_trad_bench.json"),     # ~6K items
+    ]
 
-    try:
-        dataset = load_dataset(AYURPARAM_DATASET, token=HF_TOKEN)
+    for config_name, filename in subsets:
+        print(f"\n{'='*50}")
+        print(f"[3/3] HiMed — {config_name}")
+        print(f"{'='*50}")
 
-        all_data = []
-        for split_name in dataset.keys():
-            split_data = [dict(row) for row in dataset[split_name]]
-            print(f"  Split '{split_name}': {len(split_data)} samples")
-            all_data.extend(split_data)
+        try:
+            dataset = load_dataset(HIMED_DATASET, config_name, token=HF_TOKEN)
 
-        _save_dataset(all_data, "ayurparam.json", "AyurParam")
+            all_data = []
+            for split_name in dataset.keys():
+                split_data = [dict(row) for row in dataset[split_name]]
+                print(f"  Split '{split_name}': {len(split_data)} samples")
+                all_data.extend(split_data)
 
-    except Exception as e:
-        print(f"  Error: {e}")
-        print(f"  This is a gated dataset. Request access at:")
-        print(f"  https://huggingface.co/datasets/{AYURPARAM_DATASET}")
+            _save_dataset(all_data, filename, config_name)
+
+        except Exception as e:
+            print(f"  Error: {e}")
+            print(f"  Dataset: https://huggingface.co/datasets/{HIMED_DATASET}")
 
 
 # ──────────────────────────────────────────────
@@ -137,7 +143,7 @@ if __name__ == "__main__":
 
     download_bba_dataset()      # 1. BhashaBench-Ayur
     download_ayurveda_qa()      # 2. Ayurveda text Q&A
-    download_ayurparam()        # 3. AyurParam bilingual
+    download_himed()            # 3. HiMed traditional medicine
 
     print(f"\n{'='*50}")
     print(f"All downloads complete! Check: {RAW_DATA_DIR}")
